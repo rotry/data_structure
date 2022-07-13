@@ -91,7 +91,23 @@ void ListShow(SeqList list) {
  * @return
  */
 Student ListByIndex(SeqList list,int index){
-
+    return list.data[index];
+}
+/**
+ * 指定位置删除
+ * @param list
+ * @param index
+ */
+bool ListDeleteByIndex(SeqList &list,int index){
+    if(index < 1 || index > list.length){
+        return false;
+    }
+    printf("你删除的数据为姓名：%s,年龄：%d",list.data[index - 1].name,list.data[index - 1].age);
+    for (int i = index; i < list.length; i++) {
+        list.data[i - 1] = list.data[i];
+    }
+    list.length--;
+    return true;
 }
 int main() {
     // 创建一个顺序表，并且初始化
@@ -113,6 +129,11 @@ int main() {
     bool b2 = ListInsert(list, 2, student2);
     if (b2) printf("添加成功\n");
     printf("添加之后最大容量为%d,当前长度为：%d\n", list.MaxSize, list.length);
+    // 显示数据
+    ListShow(list);
+    Student student = ListByIndex(list,1);
+    printf("学生为%s,年龄%d",student.name,student.age);
+    ListDeleteByIndex(list,1);
     // 显示数据
     ListShow(list);
     return 0;
