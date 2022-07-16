@@ -84,29 +84,51 @@ void ListShow(SeqList list) {
         printf("学生的姓名为：%s,年龄为：%d\n", student.name, student.age);
     }
 }
+
 /**
  * 通过位置查找
  * @param list 传入的顺序表
  * @param index 位置
  * @return
  */
-Student ListByIndex(SeqList list,int index){
+Student ListByIndex(SeqList list, int index) {
     return list.data[index];
 }
+
 /**
  * 指定位置删除
  * @param list
  * @param index
  */
-bool ListDeleteByIndex(SeqList &list,int index){
-    if(index < 1 || index > list.length){
+bool ListDeleteByIndex(SeqList &list, int index) {
+    if (index < 1 || index > list.length) {
         return false;
     }
-    printf("你删除的数据为姓名：%s,年龄：%d",list.data[index - 1].name,list.data[index - 1].age);
+    printf("你删除的数据为姓名：%s,年龄：%d", list.data[index - 1].name, list.data[index - 1].age);
     for (int i = index; i < list.length; i++) {
         list.data[i - 1] = list.data[i];
     }
     list.length--;
+    return true;
+}
+/**
+ * 删除最小的元素并且和最后一个元素填充空位
+ * @param list 传入顺序表
+ * @param s // 保存删除的最小值
+ * @return
+ */
+bool DeleMinValue(SeqList &list,Student &s){
+    int temp = 100;
+    int index = 0;// 记录最小位置的索引
+    if (list.length <=0 ) return false;
+    for (int i = 0; i < list.length; i++) {
+        if (list.data[i].age < temp){
+            temp = list.data[i].age;
+            index = i;
+        }
+    }
+    s = list.data[index];
+    list.data[index] = list.data[list.length - 1];
     return true;
 }
 int main() {
@@ -125,15 +147,15 @@ int main() {
     bool b1 = ListInsert(list, 1, student1);
     if (b1) printf("添加成功\n");
     strcpy(student2.name, "孙波");
-    student2.age = 19;
+    student2.age = 17;
     bool b2 = ListInsert(list, 2, student2);
     if (b2) printf("添加成功\n");
     printf("添加之后最大容量为%d,当前长度为：%d\n", list.MaxSize, list.length);
     // 显示数据
     ListShow(list);
-    Student student = ListByIndex(list,1);
-    printf("学生为%s,年龄%d",student.name,student.age);
-    ListDeleteByIndex(list,1);
+    Student student = ListByIndex(list, 1);
+    printf("学生为%s,年龄%d", student.name, student.age);
+    ListDeleteByIndex(list, 1);
     // 显示数据
     ListShow(list);
     return 0;
